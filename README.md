@@ -42,7 +42,7 @@ Follow these steps to get the application running on your local machine.
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Winningshankar1985/FAISS-RAG.git
 cd faiss-rag
 ```
 
