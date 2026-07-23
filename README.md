@@ -8,33 +8,29 @@ The application follows a standard agentic RAG pattern. The user interacts with 
 
 ```mermaid
 graph TD
-    subgraph "User Interface (Streamlit)"
-        A[User Enters Query] --> B{Chat UI};
-    end
-
+    A[User Enters Query] --> B{Chat UI};
     B --> C[Agent Executor];
 
-    subgraph "LangChain Agent"
+    subgraph Agent
         C -- "input, chat_history" --> D{Agent Logic};
         D -- "Chooses tool" --> E{Tool Dispatcher};
-        D <--> F[LLM (gpt-4o)];
-    end
-
-    subgraph "Available Tools"
-        E -- "If web search needed" --> G[web_search Tool];
-        G -- "Calls API" --> H(Tavily Search API);
-        H --> G;
-        
-        E -- "If document search needed" --> I[initialise_rag Tool];
-        subgraph "RAG Pipeline"
-            I --> J{FAISS Vector Store};
-            J -- "Similarity Search on 'pdf.pdf'" --> I;
-        end
+        D <--> F[LLM: gpt-4o];
+        E --> G[web_search Tool];
+        E --> I[initialise_rag Tool];
         G -- "Tool Output" --> D;
         I -- "Tool Output" --> D;
+        D -- "Final Answer" --> K[Agent Executor Output];
     end
 
-    D -- "Final Answer" --> K[Agent Executor Output];
+    subgraph External Services
+        G -- "Calls API" --> H(Tavily Search API);
+    end
+
+    subgraph RAG Pipeline
+        I -- "Loads & Searches" --> J{FAISS Vector Store};
+        J -- "Similarity Search on 'pdf.pdf'" --> I;
+    end
+
     K -- "Displays 'output'" --> L[Display in Chat UI];
     A --> L;
 ```
