@@ -1,0 +1,14 @@
+langchain
+langchain-core
+langchain-google-genai
+langchain-community
+dotenv
+langchain-text-splitters
+streamlit
+typing
+langsmith
+tavily
+langchain-classic
+langchain-openai
+faiss-cpu
+pypdf
